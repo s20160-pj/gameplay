@@ -1,20 +1,32 @@
 package pl.pjatk.gameplay.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import pl.pjatk.gameplay.model.Player;
+import pl.pjatk.gameplay.repository.PlayerRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
 
+    private PlayerRepository playerRepository;
+
+    public  PlayerService(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
+
     public List<Player> findAll() {
-        List<Player> playerList = new ArrayList<Player>();
-        Player player1 = new Player(1,"Player one", 10, 100);
-        Player player2 = new Player(2, "Player two", 10, 100);
-        playerList.add(player1);
-        playerList.add(player2);
-        return playerList;
+        return playerRepository.findAll();
+    }
+
+    public Optional<Player> findById(@PathVariable Long id) {
+        return playerRepository.findById(id);
+    }
+
+    public Player savePlayer(Player player) {
+        return playerRepository.save(player);
     }
 }
